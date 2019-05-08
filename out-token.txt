@@ -1,0 +1,53 @@
+Line 3: < CLASS >
+Line 3: < ID , A >
+Line 3: < LBRACE >
+Line 5: < ID , var >
+Line 5: < COLON >
+Line 5: < ID , Int >
+Line 5: < LARROW >
+Line 5: < INTEGER , 0 >
+Line 5: < SEMI >
+Line 6: < ID , str >
+Line 6: < COLON >
+Line 6: < ID , String >
+Line 6: < LARROW >
+Line 6: < STRING , "lol" >
+Line 6: < SEMI >
+Line 7: < ID , value >
+Line 7: < LPAREN >
+Line 7: < RPAREN >
+Line 7: < COLON >
+Line 7: < ID , Int >
+Line 7: < LBRACE >
+Line 7: < ID , var >
+Line 7: < RBRACE >
+Line 7: < SEMI >
+Line 9: < ID , set_var >
+Line 9: < LPAREN >
+Line 9: < ID , num >
+Line 9: < COLON >
+Line 9: < ID , Int >
+Line 9: < RPAREN >
+Line 9: < COLON >
+Line 9: < ID , SELF_TYPE >
+Line 9: < LBRACE >
+Line 10: < LBRACE >
+Line 11: < ID , num >
+Line 11: < LARROW >
+Line 11: < ID , x >
+Line 11: < MUL >
+Line 11: < LPAREN >
+Line 11: < INTEGER , 2 >
+Line 11: < PLUS >
+Line 11: < INTEGER , 4 >
+Line 11: < MINUS >
+Line 11: < ID , y >
+Line 11: < DIVIDE >
+Line 11: < INTEGER , 8 >
+Line 11: < RPAREN >
+Line 11: < SEMI >
+Line 12: < RBRACE >
+Line 13: < RBRACE >
+Line 13: < SEMI >
+Line 15: < RBRACE >
+Line 15: < SEMI >
