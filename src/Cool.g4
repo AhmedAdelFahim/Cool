@@ -6,7 +6,7 @@ program : cls+  ;
 
 cls : CLASS ID (INHERITS ID)? LBRACE (stmt SEMI)* RBRACE SEMI;
 
-stmt : ID LPAREN (param (COMMA param)*)? RPAREN COLON ID LBRACE st RBRACE          # functionDeclare
+stmt : ID LPAREN (param (COMMA param)*)? RPAREN COLON ID LBRACE st RBRACE          	# functionDeclare
      | ID COLON ID (LARROW expr)?                                                    # varialeDeclare
      ;
 param : ID COLON ID;

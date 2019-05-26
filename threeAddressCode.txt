@@ -1,5 +1,15 @@
+var = 0
+str = "lol"
+value:
+BeginFunc;
+Return var
+EndFunc;
+set_var:
+BeginFunc;
 t3 = 2 + 4
 t4 = y / 8
 t2 = t3 - t4
 t1 = x * t2
 num = t1
+Return num
+EndFunc;
