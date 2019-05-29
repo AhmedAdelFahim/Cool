@@ -1,53 +1,85 @@
-Line 3: < CLASS >
-Line 3: < ID , A >
-Line 3: < LBRACE >
-Line 5: < ID , var >
-Line 5: < COLON >
-Line 5: < ID , Int >
-Line 5: < LARROW >
-Line 5: < INTEGER , 0 >
-Line 5: < SEMI >
-Line 6: < ID , str >
-Line 6: < COLON >
-Line 6: < ID , String >
-Line 6: < LARROW >
-Line 6: < STRING , "lol" >
+Line 1: < CLASS >
+Line 1: < ID , Main >
+Line 1: < INHERITS >
+Line 1: < ID , IO >
+Line 1: < LBRACE >
+Line 2: < ID , x >
+Line 2: < COLON >
+Line 2: < ID , Int >
+Line 2: < LARROW >
+Line 2: < INTEGER , 6 >
+Line 2: < SEMI >
+Line 3: < ID , fact >
+Line 3: < COLON >
+Line 3: < ID , Int >
+Line 3: < SEMI >
+Line 4: < ID , main >
+Line 4: < LPAREN >
+Line 4: < RPAREN >
+Line 4: < COLON >
+Line 4: < ID , Object >
+Line 4: < LBRACE >
+Line 5: < LBRACE >
+Line 6: < ID , out_int >
+Line 6: < LPAREN >
+Line 6: < ID , fact >
+Line 6: < LPAREN >
+Line 6: < ID , x >
+Line 6: < RPAREN >
+Line 6: < RPAREN >
 Line 6: < SEMI >
-Line 7: < ID , value >
+Line 7: < ID , out_string >
 Line 7: < LPAREN >
+Line 7: < STRING , "End" >
 Line 7: < RPAREN >
-Line 7: < COLON >
-Line 7: < ID , Int >
-Line 7: < LBRACE >
-Line 7: < ID , var >
-Line 7: < RBRACE >
 Line 7: < SEMI >
-Line 9: < ID , set_var >
-Line 9: < LPAREN >
-Line 9: < ID , num >
-Line 9: < COLON >
-Line 9: < ID , Int >
-Line 9: < RPAREN >
-Line 9: < COLON >
-Line 9: < ID , SELF_TYPE >
-Line 9: < LBRACE >
-Line 10: < LBRACE >
-Line 11: < ID , num >
-Line 11: < LARROW >
-Line 11: < ID , x >
-Line 11: < MUL >
+Line 8: < RBRACE >
+Line 9: < RBRACE >
+Line 9: < SEMI >
+Line 11: < ID , fact >
 Line 11: < LPAREN >
-Line 11: < INTEGER , 2 >
-Line 11: < PLUS >
-Line 11: < INTEGER , 4 >
-Line 11: < MINUS >
-Line 11: < ID , y >
-Line 11: < DIVIDE >
-Line 11: < INTEGER , 8 >
+Line 11: < ID , x >
+Line 11: < COLON >
+Line 11: < ID , Int >
 Line 11: < RPAREN >
-Line 11: < SEMI >
-Line 12: < RBRACE >
-Line 13: < RBRACE >
+Line 11: < COLON >
+Line 11: < ID , Int >
+Line 11: < LBRACE >
+Line 12: < LBRACE >
+Line 13: < ID , fact >
+Line 13: < LARROW >
+Line 13: < INTEGER , 1 >
 Line 13: < SEMI >
-Line 15: < RBRACE >
-Line 15: < SEMI >
+Line 14: < WHILE >
+Line 14: < LPAREN >
+Line 14: < NOT >
+Line 14: < LPAREN >
+Line 14: < ID , x >
+Line 14: < EQUALS >
+Line 14: < INTEGER , 0 >
+Line 14: < RPAREN >
+Line 14: < RPAREN >
+Line 14: < LOOP >
+Line 15: < LBRACE >
+Line 16: < ID , fact >
+Line 16: < LARROW >
+Line 16: < ID , fact >
+Line 16: < MUL >
+Line 16: < ID , x >
+Line 16: < SEMI >
+Line 17: < ID , x >
+Line 17: < LARROW >
+Line 17: < ID , x >
+Line 17: < MINUS >
+Line 17: < INTEGER , 1 >
+Line 17: < SEMI >
+Line 18: < RBRACE >
+Line 19: < POOL >
+Line 19: < SEMI >
+Line 20: < ID , fact >
+Line 20: < SEMI >
+Line 21: < RBRACE >
+Line 22: < RBRACE >
+Line 22: < SEMI >
+Line 23: < RBRACE >
+Line 23: < SEMI >

@@ -1,15 +1,29 @@
-var = 0
-str = "lol"
-value:
+x = 6
+main:
 BeginFunc;
-Return var
+PushParam x
+t2 = LCall fact
+PopParams 4
+PushParam t2
+t1 = LCall out_int
+PopParams 4
+PushParam "End"
+t3 = LCall out_string
+PopParams 4
+Return t3
 EndFunc;
-set_var:
+fact:
 BeginFunc;
-t3 = 2 + 4
-t4 = y / 8
-t2 = t3 - t4
-t1 = x * t2
-num = t1
-Return num
+fact = 1
+l1 : 
+t5 = x == 0
+t4 =  ! t5
+ifFalse t4 goto l2
+t6 = fact * x
+fact = t6
+t7 = x - 1
+x = t7
+goto l1
+l2 : 
+Return fact
 EndFunc;

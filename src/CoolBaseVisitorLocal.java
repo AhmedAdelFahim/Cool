@@ -22,17 +22,19 @@ public class CoolBaseVisitorLocal extends CoolBaseVisitor<String> {
     public static class SymbolTable {
         private Hashtable table;
         public static Stack<SymbolTable> tableScope = new Stack<>();
-        protected SymbolTable outer;
+        private SymbolTable outer;
         public SymbolTable(SymbolTable st) {
-            table = new Hashtable();
-            outer = st;
+            this.table = new Hashtable();
+            this.outer = st;
         }
         public void put(String token, String value) {
             table.put(token, value);
         }
         public boolean get(String value) {
-            for (SymbolTable tab = this ; tab != null ; tab = tab.outer) {
-                if(tab.table.containsValue(value)){
+            int i=0;
+            for (SymbolTable tab = SymbolTable.tableScope.peek(); tab != null ; tab = tab.outer) {
+//                System.out.println("scope" + i++ + '\n' +tab.table.toString());
+                if(tab.table.containsKey(value)){
                     return true;
                 }
             }
@@ -44,7 +46,13 @@ public class CoolBaseVisitorLocal extends CoolBaseVisitor<String> {
         static int count = 0;
         int number;
         public Temp() { number = ++count; }
-        public String toString() { return "t" + number; }
+        public String toString() { return "t" + this.number; }
+    }
+    static public class Label{
+        static int count = 0;
+        int number;
+        public Label() { number = ++count; }
+        public String toString() { return "l" + this.number ; }
     }
 
     @Override
@@ -104,7 +112,9 @@ public class CoolBaseVisitorLocal extends CoolBaseVisitor<String> {
 
     @Override
     public String visitIdentifier(CoolParser.IdentifierContext ctx) {
-
+        if (!SymbolTable.tableScope.peek().get(ctx.ID().getText())){
+            System.err.println("undeclared variable at ^" + ctx.ID().getText());
+        }
         return ctx.ID().getText();
     }
 
@@ -155,7 +165,8 @@ public class CoolBaseVisitorLocal extends CoolBaseVisitor<String> {
             System.err.println("dublicate of declaration at ^" + ctx.ID(0).getText());
             return "";
         }else{
-            SymbolTable.tableScope.peek().put("ID", ctx.ID(0).getText());
+//            System.out.println("varaible declared" + ctx.ID(0).getText());
+            SymbolTable.tableScope.peek().put(ctx.ID(0).getText(), "ID");
             try {
                 if (ctx.getChildCount()>3){
                     writer.write(ctx.ID(0).getText() + " = " + visit(ctx.expr())+"\n");
@@ -176,10 +187,26 @@ public class CoolBaseVisitorLocal extends CoolBaseVisitor<String> {
     @Override
     public String visitFunctionDeclare(CoolParser.FunctionDeclareContext ctx) {
         try {
+
+            if (SymbolTable.tableScope.empty()){
+                SymbolTable.tableScope.push(new SymbolTable(null));
+            }else {
+                SymbolTable.tableScope.push(new SymbolTable(SymbolTable.tableScope.peek()));
+            }
+
+            if (ctx.getChildCount()>8) {
+                SymbolTable.tableScope.peek().put(ctx.param(0).ID(0).getText(), "ID");
+                for (int i = 0; i < (ctx.getChildCount() - 9) / 2; i++) {
+                    SymbolTable.tableScope.peek().put(ctx.param(i).ID(0).getText(), "ID");
+                }
+            }
+
             writer.write(ctx.ID(0).getText()+":\n");
             writer.write("BeginFunc;\n");
             writer.write("Return " + visit(ctx.st()) + "\n");
             writer.write("EndFunc;\n");
+
+            SymbolTable.tableScope.pop();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -207,4 +234,107 @@ public class CoolBaseVisitorLocal extends CoolBaseVisitor<String> {
         }
         return t.toString();
     }
+
+    @Override
+    public String visitNot(CoolParser.NotContext ctx) {
+        Temp t = new Temp();
+        try {
+            writer.write(t.toString() + " = " + " ! "+visit(ctx.expr()) +"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return t.toString();
+    }
+
+    @Override
+    public String visitLessThan(CoolParser.LessThanContext ctx) {
+        Temp t = new Temp();
+        try {
+            writer.write(t.toString() + " = " +visit(ctx.expr(0)) + " < "+visit(ctx.expr(1)) +"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return t.toString();
+    }
+
+    @Override
+    public String visitLessThanOrEqual(CoolParser.LessThanOrEqualContext ctx) {
+        Temp t = new Temp();
+        try {
+            writer.write(t.toString() + " = " +visit(ctx.expr(0)) + " <= "+visit(ctx.expr(1)) +"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return t.toString();
+    }
+
+    @Override
+    public String visitEquals(CoolParser.EqualsContext ctx) {
+        Temp t = new Temp();
+        try {
+            writer.write(t.toString() + " = " +visit(ctx.expr(0)) + " == "+visit(ctx.expr(1)) +"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return t.toString();
+    }
+
+    @Override
+    public String visitTrue(CoolParser.TrueContext ctx) {
+        Temp t = new Temp();
+        try {
+            writer.write(t.toString() + " = TRUE" +"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return t.toString();
+    }
+
+    @Override
+    public String visitFalse(CoolParser.FalseContext ctx) {
+        Temp t = new Temp();
+        try {
+            writer.write(t.toString() + " = FALSE" +"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return t.toString();
+    }
+
+    @Override
+    public String visitIf(CoolParser.IfContext ctx) {
+
+        Label labelTrue = new Label();
+        Label next = new Label();
+        try {
+            writer.write("ifTrue " + visit(ctx.expr()) +" goto "+labelTrue.toString() + "\n");
+            visit(ctx.st(1));
+            writer.write("goto "+next.toString() + "\n");
+            writer.write(labelTrue.toString() + " : "+ "\n");
+            visit(ctx.st(0));
+            writer.write(next.toString() +" : "+ "\n");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    @Override
+    public String visitWhile(CoolParser.WhileContext ctx) {
+        Label W = new Label();
+        Label next = new Label();
+        try {
+            writer.write(W.toString() +" : "+ "\n");
+            writer.write("ifFalse " + visit(ctx.expr()) +" goto "+next.toString() + "\n");
+            visit(ctx.st());
+            writer.write("goto "+W.toString() + "\n");
+            writer.write(next.toString() +" : "+ "\n");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }

@@ -6,7 +6,7 @@ program : cls+  ;
 
 cls : CLASS ID (INHERITS ID)? LBRACE (stmt SEMI)* RBRACE SEMI;
 
-stmt : ID LPAREN (param (COMMA param)*)? RPAREN COLON ID LBRACE st RBRACE          	# functionDeclare
+stmt : ID LPAREN (param (COMMA param)*)? RPAREN COLON ID LBRACE st RBRACE            # functionDeclare
      | ID COLON ID (LARROW expr)?                                                    # varialeDeclare
      ;
 param : ID COLON ID;
@@ -17,6 +17,7 @@ st  : ID LARROW expr                                                            
 
 expr
     : LBRACE (st SEMI)+ RBRACE                                                       # block
+    | IF expr THEN st ELSE st FI                                                     # if
     | INTEGER                                                                        # integer
     | LPAREN expr RPAREN                                                             # parantesies
     | expr MUL expr                                                                  # mul
@@ -30,8 +31,7 @@ expr
     | NOT expr                                                                       # not
     | NEW ID                                                                         # object
     | TRUE                                                                           # true
-    | IF expr THEN expr ELSE expr FI                                                 # if
-    | WHILE expr LOOP expr POOL                                                      # while
+    | WHILE expr LOOP st POOL                                                        # while
     | LET ID COLON ID (LARROW expr)? (COMMA ID COLON ID (LARROW expr)?)* IN expr     # blockLet
     | expr(AT ID)? DOT ID LPAREN (expr (COMMA expr)*)? RPAREN                        # classCallFunction
     | ID LPAREN (expr (COMMA expr)*)? RPAREN                                         # callFunction

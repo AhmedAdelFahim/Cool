@@ -1,15 +1,23 @@
+class Main inherits IO {
+    x : Int <- 6;
+    fact : Int;
+    main() : Object {
+        {
+            out_int(fact(x));
+            out_string("End");
+        }
+    };
 
-
-class A {
-
-   var : Int <- 0;
-   str : String <- "lol";
-   value() : Int { var };
-
-   set_var(num : Int) : SELF_TYPE {
-      {
-         num <- x * (2 + 4 - y / 8);
-      }
-   };
-
+    fact(x : Int) : Int {
+        {
+            fact <- 1;
+            while(not(x = 0)) loop
+            {
+                fact <- fact * x;
+                x <- x - 1;
+            }
+            pool;
+            fact;
+        }
+    };
 };
